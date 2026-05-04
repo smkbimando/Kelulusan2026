@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Pengumuman Kelulusan</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial, sans-serif;
+    background:linear-gradient(135deg,#4facfe,#00f2fe);
+    min-height:100vh;
+    padding:15px;
+    color:#222;
+}
+
+/* LOGIN */
+.card,.loading-page{
+    background:#fff;
+    width:100%;
+    max-width:380px;
+    padding:22px;
+    border-radius:18px;
+    text-align:center;
+    box-shadow:0 10px 25px rgba(0,0,0,.18);
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+}
+
+.kop-login{
+    margin-bottom:16px;
+}
+
+.kop-login img{
+    width:64px;
+    height:64px;
+    object-fit:contain;
+    margin-bottom:8px;
+}
+
+.kop-login h3{
+    font-size:15px;
+    margin:2px 0;
+    line-height:1.3;
+}
+
+.kop-login p{
+    font-size:11px;
+    color:#666;
+    line-height:1.4;
+}
+
+.card h2{
+    font-size:22px;
+    margin-bottom:15px;
+    color:#007bff;
+}
+
+input{
+    width:100%;
+    padding:13px;
+    margin:8px 0;
+    border:1px solid #ccc;
+    border-radius:12px;
+    font-size:15px;
+    outline:none;
+}
+
+input:focus{
+    border-color:#4facfe;
+}
+
+button{
+    width:100%;
+    padding:13px;
+    margin-top:10px;
+    border:none;
+    border-radius:12px;
+    background:#007bff;
+    color:#fff;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#0056b3;
+}
+
+#info{
+    margin-top:10px;
+    font-size:14px;
+    color:#d10000;
+}
+
+/* LOADING */
+.loading-page h3{
+    margin-bottom:10px;
+}
+
+#animText{
+    font-size:28px;
+    font-weight:bold;
+    animation:fade 1s infinite;
+}
+
+.hijau{color:green;}
+.merah{color:red;}
+
+@keyframes fade{
+    0%{opacity:.3; transform:scale(.95);}
+    50%{opacity:1; transform:scale(1.05);}
+    100%{opacity:.3; transform:scale(.95);}
+}
+
+/* HASIL */
+.container{
+    display:none;
+    background:#fff;
+    width:100%;
+    max-width:480px;
+    margin:auto;
+    border-radius:20px;
+    padding:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,.18);
+    position:relative;
+    z-index:2;
+}
+
+.kop{
+    text-align:center;
+    border-bottom:2px solid #222;
+    padding-bottom:14px;
+    margin-bottom:16px;
+}
+
+.kop img{
+    width:65px;
+    height:65px;
+    object-fit:contain;
+    margin-bottom:8px;
+}
+
+.kop h2{
+    font-size:17px;
+    line-height:1.4;
+}
+
+.kop p{
+    font-size:11px;
+    color:#555;
+    margin-top:4px;
+    line-height:1.4;
+}
+
+.judul{
+    text-align:center;
+    margin-bottom:18px;
+}
+
+.judul h2{
+    font-size:20px;
+    color:#007bff;
+}
+
+.judul p{
+    font-size:13px;
+    color:#666;
+    margin-top:4px;
+}
+
+.foto-box{
+    text-align:center;
+    margin-bottom:18px;
+}
+
+.foto-box img{
+    width:120px;
+    height:150px;
+    object-fit:cover;
+    border-radius:12px;
+    border:2px solid #ddd;
+    box-shadow:0 4px 10px rgba(0,0,0,.1);
+}
+
+.foto-box p{
+    margin-top:8px;
+    font-size:12px;
+    color:#666;
+}
+
+.data-card{
+    background:#f8f9fa;
+    border-radius:14px;
+    padding:15px;
+    margin-bottom:18px;
+}
+
+.data-item{
+    display:flex;
+    flex-direction:column;
+    padding:8px 0;
+    border-bottom:1px solid #e5e5e5;
+}
+
+.data-item:last-child{
+    border-bottom:none;
+}
+
+.label{
+    font-size:12px;
+    color:#666;
+    margin-bottom:3px;
+}
+
+.value{
+    font-size:15px;
+    font-weight:bold;
+    color:#222;
+    line-height:1.4;
+}
+
+.status{
+    text-align:center;
+    font-size:26px;
+    font-weight:bold;
+    padding:18px;
+    border-radius:14px;
+    margin-top:10px;
+}
+
+.lulus{
+    color:#0a8f2f;
+    background:#eafaf0;
+    box-shadow:0 0 15px rgba(0,255,100,.18);
+}
+
+.tidak{
+    color:#c70000;
+    background:#fff1f1;
+}
+
+.btn-kembali{
+    width:100%;
+    margin-top:18px;
+    background:#6c757d;
+}
+
+.btn-kembali:hover{
+    background:#495057;
+}
+
+/* FIREWORK */
+#fireworks{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    pointer-events:none;
+    z-index:999;
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="card" id="loginPage">
+    <div class="kop-login">
+        <img src="logo.png" alt="Logo">
+        <h3>SMK BINA MANDIRI INDONESIA</h3>
+        <h3>SURAKARTA</h3>
+        <p>Jl. Bungur V/10 Punggawan, Banjarsari, Surakarta</p>
+    </div>
+
+    <h2>Pengumuman Kelulusan</h2>
+    <input type="text" id="nisn" placeholder="Masukkan NISN">
+    <input type="date" id="ttl">
+    <button onclick="cek()">Cek Kelulusan</button>
+    <p id="info"></p>
+</div>
+
+<!-- LOADING -->
+<div class="loading-page" id="loadingPage" style="display:none;">
+    <h3>Memproses...</h3>
+    <p id="animText">LULUS</p>
+</div>
+
+<!-- FIREWORK -->
+<canvas id="fireworks"></canvas>
+
+<!-- HASIL -->
+<div class="container" id="hasilPage">
+    <div class="kop">
+        <img src="logo.png" alt="Logo">
+        <h2>SMK BINA MANDIRI INDONESIA SURAKARTA</h2>
+        <p>Jl. Bungur V/10 Punggawan, Banjarsari, Surakarta</p>
+    </div>
+
+    <div class="judul">
+        <h2>PENGUMUMAN KELULUSAN</h2>
+        <p>Tahun Ajaran 2025/2026</p>
+    </div>
+
+    <div class="foto-box">
+        <img id="foto" src="" alt="Foto Siswa">
+        <p>Foto Siswa</p>
+    </div>
+
+    <div class="data-card">
+        <div class="data-item"><span class="label">Nama</span><span class="value" id="nama"></span></div>
+        <div class="data-item"><span class="label">Tempat, Tanggal Lahir</span><span class="value" id="ttlHasil"></span></div>
+        <div class="data-item"><span class="label">NIS</span><span class="value" id="nis"></span></div>
+        <div class="data-item"><span class="label">NISN</span><span class="value" id="nisnHasil"></span></div>
+        <div class="data-item"><span class="label">Program Keahlian</span><span class="value" id="prog"></span></div>
+        <div class="data-item"><span class="label">Konsentrasi Keahlian</span><span class="value" id="komp"></span></div>
+    </div>
+
+    <div class="status" id="status"></div>
+    <button class="btn-kembali" onclick="kembali()">🔙 Kembali</button>
+</div>
+
+<script>
+let hasil = null;
+let fireworkAnim = null;
+
+function resetForm(){
+    document.getElementById("nisn").value = "";
+    document.getElementById("ttl").value = "";
+    document.getElementById("info").innerText = "";
+}
+
+window.onload = function(){
+    resetForm();
+};
+
+function kembali(){
+    document.getElementById("hasilPage").style.display = "none";
+    document.getElementById("loginPage").style.display = "block";
+
+    resetForm();
+
+    document.getElementById("status").innerText = "";
+    document.getElementById("foto").src = "";
+
+    if (fireworkAnim) cancelAnimationFrame(fireworkAnim);
+
+    const canvas = document.getElementById("fireworks");
+    const ctx = canvas.getContext("2d");
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+}
+
+function formatTanggal(dateString){
+    const bulan = [
+        "Januari","Februari","Maret","April","Mei","Juni",
+        "Juli","Agustus","September","Oktober","November","Desember"
+    ];
+
+    const d = new Date(dateString);
+    return `${d.getDate()} ${bulan[d.getMonth()]} ${d.getFullYear()}`;
+}
+
+function cek(){
+    const now = new Date();
+    const wib = new Date(now.toLocaleString("en-US",{timeZone:"Asia/Jakarta"}));
+    const jam = wib.getHours();
+
+    if(jam < 18){
+        document.getElementById("info").innerText = "⏳ Dibuka setelah jam 18.00 WIB";
+        return;
+    }
+
+    const nisn = document.getElementById("nisn").value.trim();
+    const ttl  = document.getElementById("ttl").value;
+
+    const data = [
+        {
+            nis:"999999",
+            nisn:"1234567890",
+            nama:"GATOTKACA",
+            tmp_lahir:"Surakarta",
+            ttl:"2007-07-07",
+            prog:"Akuntansi dan Keuangan Lembaga",
+            komp:"Akuntansi",
+            status:"LULUS",
+            foto:"gatotkaca1.jpg"
+        },
+        {
+            nis:"233474",
+            nisn:"0077021710",
+            nama:"DANIEL KURNIA RAHIM NOFIANTO",
+            tmp_lahir:"Karanganyar",
+            ttl:"2007-10-25",
+            prog:"Akuntansi dan Keuangan Lembaga",
+            komp:"Akuntansi",
+            status:"LULUS",
+            foto:"daniel.jpg"
+        },
+        {
+            nis:"233475",
+            nisn:"0076757000",
+            nama:"PEBRIYAN ENDRO WICAKSONO",
+            tmp_lahir:"Surakarta",
+            ttl:"2007-02-18",
+            prog:"Akuntansi dan Keuangan Lembaga",
+            komp:"Akuntansi",
+            status:"LULUS",
+            foto:"pebrian.jpg"
+        },
+        {
+            nis:"223473",
+            nisn:"0074432525",
+            nama:"CHELSEA ASMAUL HUSNA",
+            tmp_lahir:"Surakarta",
+            ttl:"2007-04-09",
+            prog:"Manajemen Perkantoran dan Layanan Bisnis",
+            komp:"Manajemen Perkantoran",
+            status:"LULUS",
+            foto:"chelsea.jpg"
+        },
+        {
+            nis:"233476",
+            nisn:"0074842436",
+            nama:"GITA LESTARI",
+            tmp_lahir:"Palu",
+            ttl:"2007-06-10",
+            prog:"Manajemen Perkantoran dan Layanan Bisnis",
+            komp:"Manajemen Perkantoran",
+            status:"LULUS",
+            foto:"gita.jpg"
+        },
+        {
+            nis:"233477",
+            nisn:"0073877814",
+            nama:"RAHMAWATI ANGGRAINI",
+            tmp_lahir:"Surakarta",
+            ttl:"2007-06-07",
+            prog:"Manajemen Perkantoran dan Layanan Bisnis",
+            komp:"Manajemen Perkantoran",
+            status:"LULUS",
+            foto:"rahma.jpg"
+        }
+    ];
+
+    const siswa = data.find(s => s.nisn === nisn && s.ttl === ttl);
+
+    if(!siswa){
+        document.getElementById("info").innerText = "❌ Data tidak ditemukan";
+        return;
+    }
+
+    hasil = siswa;
+
+    document.getElementById("loginPage").style.display = "none";
+    document.getElementById("loadingPage").style.display = "block";
+
+    const anim = document.getElementById("animText");
+    let toggle = true;
+
+    const interval = setInterval(() => {
+        if(toggle){
+            anim.innerText = "LULUS";
+            anim.className = "hijau";
+        }else{
+            anim.innerText = "TIDAK LULUS";
+            anim.className = "merah";
+        }
+        toggle = !toggle;
+    }, 500);
+
+    setTimeout(() => {
+        clearInterval(interval);
+        tampilkan();
+    }, 5000);
+}
+
+function tampilkan(){
+    document.getElementById("loadingPage").style.display = "none";
+    document.getElementById("hasilPage").style.display = "block";
+
+    document.getElementById("nama").innerText = hasil.nama;
+    document.getElementById("ttlHasil").innerText = hasil.tmp_lahir + ", " + formatTanggal(hasil.ttl);
+    document.getElementById("nis").innerText = hasil.nis;
+    document.getElementById("nisnHasil").innerText = hasil.nisn;
+    document.getElementById("prog").innerText = hasil.prog;
+    document.getElementById("komp").innerText = hasil.komp;
+    document.getElementById("foto").src = hasil.foto;
+
+    const st = document.getElementById("status");
+
+    if(hasil.status === "LULUS"){
+        st.innerText = "🎓 DINYATAKAN LULUS";
+        st.className = "status lulus";
+        startFireworks();
+        playSound();
+        vibrate();
+    }else{
+        st.innerText = "❌ DINYATAKAN TIDAK LULUS";
+        st.className = "status tidak";
+    }
+}
+
+function playSound(){
+    const audio = new Audio("https://actions.google.com/sounds/v1/human_voices/cheering_and_applause.ogg");
+    audio.play();
+}
+
+function vibrate(){
+    if(navigator.vibrate){
+        navigator.vibrate([200,100,200]);
+    }
+}
+
+function startFireworks(){
+    const canvas = document.getElementById("fireworks");
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let particles = [];
+
+    function createParticle(){
+        return {
+            x: Math.random() * canvas.width,
+            y: canvas.height,
+            speedX: (Math.random() - 0.5) * 6,
+            speedY: Math.random() * -10 - 5,
+            color: `hsl(${Math.random() * 360}, 100%, 50%)`,
+            size: Math.random() * 4 + 2
+        };
+    }
+
+    for(let i=0;i<100;i++){
+        particles.push(createParticle());
+    }
+
+    function animate(){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+
+        particles.forEach((p,i)=>{
+            p.x += p.speedX;
+            p.y += p.speedY;
+            p.speedY += 0.2;
+
+            ctx.fillStyle = p.color;
+            ctx.beginPath();
+            ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+            ctx.fill();
+
+            if(p.y > canvas.height){
+                particles[i] = createParticle();
+            }
+        });
+
+        fireworkAnim = requestAnimationFrame(animate);
+    }
+
+    animate();
+}
+</script>
+
+</body>
+</html>
