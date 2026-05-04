@@ -512,10 +512,10 @@ function playSound(){
     audio.play();
 }
 
-function vibrate(){
-    if(navigator.vibrate){
-        navigator.vibrate([200,100,200]);
-    }
+function playSound(){
+    const audio = new Audio("applause.mp3");
+    audio.volume = 1.0;
+    audio.play();
 }
 
 function startFireworks(){
